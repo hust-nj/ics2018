@@ -8,7 +8,8 @@ read task
 cwd=${PWD##*/}
 echo "${STUID} (${STUNAME}) submitting ${task}..."
 
-wiki='https://dssl.cun.io/teach/api/uploads/'
+# wiki='https://dssl.cun.io/teach/api/uploads/'
+wiki='https://cernet.cnm.cool/teach/api/uploads/' # reverse proxy
 
 tarball=$(mktemp -q).tar.bz2
 bash -c "cd .. && tar cj ${cwd} > ${tarball}"
