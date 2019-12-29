@@ -39,27 +39,43 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_si(char *args){
+  /* extract the first argument */
+  char *arg = strtok(NULL, " ");
 
+  if (arg == NULL) {
+    /* no argument given */
+    cpu_exec(1); // exec one step
+  }
+  else {
+    unsigned long count = strtoul(arg, NULL, 10);
+    cpu_exec(count); // exec count steps
+  }
+  return 0;
 }
 
 static int cmd_info(char *args){
 
+  return 0;
 }
 
 static int cmd_p(char *args){
 
+  return 0;
 }
 
 static int cmd_x(char *args){
 
+  return 0;
 }
 
 static int cmd_w(char *args){
 
+  return 0;
 }
 
 static int cmd_d(char *args){
-
+  
+  return 0;
 }
 
 static struct {
