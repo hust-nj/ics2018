@@ -68,7 +68,7 @@ static int cmd_info(char *args){
     }
     
   } else if (!strcmp(arg, "w")){
-    
+    print_wp();
   } else {
     printf("Wrong argument for info command!(only support r & w)\n");
   }
@@ -81,6 +81,15 @@ static int cmd_p(char *args){
 }
 
 static int cmd_x(char *args){
+  char *arg1, arg2;
+  /* extract the first argument */
+  if(!(arg1 = strtok(NULL, ""))){
+    printf("more arguments are required!");
+  }
+  /* extract the second argument */
+  if(!(arg2 = strtok(NULL, ""))){
+    printf("more arguments are required!");
+  }
 
   return 0;
 }

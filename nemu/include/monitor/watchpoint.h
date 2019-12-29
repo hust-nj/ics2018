@@ -3,6 +3,8 @@
 
 #include "common.h"
 
+void print_wp();
+
 typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
