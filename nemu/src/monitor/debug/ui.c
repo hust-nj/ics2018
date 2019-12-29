@@ -54,7 +54,19 @@ static int cmd_si(char *args){
 }
 
 static int cmd_info(char *args){
-
+  /* extract the first argument */
+  // char *arg = strtok(NULL, "");
+  // if (arg == NULL){
+  //   /* no argument given */
+  //   printf("\"info\" must be followed by the name of an info command.\n"
+  //   "List of info subcommands:\n\n"
+  //   "info r -- List of all registers and their contents\n"
+  //   "info w -- Status of all watchpoints\n")
+  // } else if (!strcmp(arg, "r")){
+  //   printf("")
+  // } else if (!strcmp(arg, "w")){
+  //   print_wp();
+  // }
   return 0;
 }
 
@@ -74,7 +86,7 @@ static int cmd_w(char *args){
 }
 
 static int cmd_d(char *args){
-  
+
   return 0;
 }
 
