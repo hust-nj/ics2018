@@ -55,18 +55,23 @@ static int cmd_si(char *args){
 
 static int cmd_info(char *args){
   /* extract the first argument */
-  // char *arg = strtok(NULL, "");
-  // if (arg == NULL){
-  //   /* no argument given */
-  //   printf("\"info\" must be followed by the name of an info command.\n"
-  //   "List of info subcommands:\n\n"
-  //   "info r -- List of all registers and their contents\n"
-  //   "info w -- Status of all watchpoints\n")
-  // } else if (!strcmp(arg, "r")){
-  //   printf("")
-  // } else if (!strcmp(arg, "w")){
-  //   print_wp();
-  // }
+  char *arg = strtok(NULL, "");
+  if (arg == NULL){
+    /* no argument given */
+    printf("\"info\" must be followed by the name of an info command.\n"
+    "List of info subcommands:\n\n"
+    "info r -- List of all registers and their contents\n"
+    "info w -- Status of all watchpoints\n");
+  } else if (!strcmp(arg, "r")){
+    for(int i = R_EAX; i <= R_EDX; ++i){
+      printf("%s\t\t%#x\n", reg_name(i, 4), reg_l(i));
+    }
+    
+  } else if (!strcmp(arg, "w")){
+    
+  } else {
+    printf("Wrong argument for info command!(only support r $ w)\n");
+  }
   return 0;
 }
 
