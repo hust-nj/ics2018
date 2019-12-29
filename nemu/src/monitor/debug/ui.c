@@ -38,6 +38,30 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args){
+
+}
+
+static int cmd_info(char *args){
+
+}
+
+static int cmd_p(char *args){
+
+}
+
+static int cmd_x(char *args){
+
+}
+
+static int cmd_w(char *args){
+
+}
+
+static int cmd_d(char *args){
+
+}
+
 static struct {
   char *name;
   char *description;
@@ -48,7 +72,12 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 
   /* TODO: Add more commands */
-
+  {"si", "Step one instruction exactly", cmd_si},
+  {"info", "Generic command for showing things about the program being debugged", cmd_info},
+  {"p", "Print value of expression EXP", cmd_p},
+  {"x", "Examine memory: x N ADDRESS", cmd_x},
+  {"w", "Set a watchpoint for an expression", cmd_w},
+  {"d", "Delete the watchpoint N", cmd_d}
 };
 
 #define NR_CMD (sizeof(cmd_table) / sizeof(cmd_table[0]))
