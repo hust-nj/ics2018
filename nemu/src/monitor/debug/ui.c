@@ -70,7 +70,7 @@ static int cmd_info(char *args){
   } else if (!strcmp(arg, "w")){
     
   } else {
-    printf("Wrong argument for info command!(only support r $ w)\n");
+    printf("Wrong argument for info command!(only support r & w)\n");
   }
   return 0;
 }
