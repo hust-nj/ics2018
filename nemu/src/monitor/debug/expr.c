@@ -118,9 +118,9 @@ static bool make_token(char *e)
           tokens[nr_token].str[substr_len - 1] = '\0';
           break;
 
-        default:
-          printf("%d\n", rules[i].token_type);
-          TODO();
+        default: ;
+          // printf("%d\n", rules[i].token_type);
+          // TODO();
         }
         tokens[nr_token].type = rules[i].token_type;
         ++nr_token; // successfully match the token
