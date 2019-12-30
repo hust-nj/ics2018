@@ -95,8 +95,8 @@ static bool make_token(char *e)
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
-        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+        //     i, rules[i].regex, position, substr_len, substr_len, substr_start);
         position += substr_len;
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -265,14 +265,14 @@ long long eval(int p, int q, bool *success)
         inpar--;
         if (inpar < 0)
         {
-          Log("error for inpar < 0");
+          // Log("error for inpar < 0");
           *success = false;
           return 0;
         }
       }
       if (tokens[i].type == '(')
       {
-        Log("inpar ++");
+        // Log("inpar ++");
         inpar++;
       }
 
@@ -280,23 +280,23 @@ long long eval(int p, int q, bool *success)
       {
         if (ismd(i) && (op == 0 || !ispm(op)))
         {
-          Log("find mult or div");
+          // Log("find mult or div");
           op = i;
           *success = true;
         }
         else if (ispm(i))
         {
-          Log("find plus or minus");
+          // Log("find plus or minus");
           op = i;
           *success = true;
         }
       }
     }
-    Log("success = %d", *success);
+    // Log("success = %d", *success);
     if (*success == false)
       return 0;
 
-    Log("operator %c\n", tokens[i].type);
+    // Log("operator %c\n", tokens[i].type);
 
     // now we find the op to split
     long long val1, val2;
@@ -356,7 +356,7 @@ uint32_t expr(char *e, bool *success)
     }
   }
 
-  Log("nr_token = %d", nr_token);
+  // Log("nr_token = %d", nr_token);
 
   *success = true;
   int tmp = eval(0, nr_token - 1, success);
