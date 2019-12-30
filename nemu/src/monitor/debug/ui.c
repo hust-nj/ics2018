@@ -68,7 +68,7 @@ static int cmd_info(char *args){
     }
     
   } else if (!strcmp(arg, "w")){
-    print_wp();
+    // print_wp();
   } else {
     printf("Wrong argument for info command!(only support r & w)\n");
   }
