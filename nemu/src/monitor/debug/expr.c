@@ -276,6 +276,7 @@ long long eval(int p, int q, bool *success)
 
       if (!inpar)
       {
+        Log("not in parenthesis");
         if (ismd(i) && (op == 0 || !ispm(op)))
         {
           op = i;
