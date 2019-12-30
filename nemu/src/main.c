@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
   int cnt = 0;
   while (fscanf(fp, "%u %[^\n]", &res, str) == 2)
   {
-    printf("%d\n", res);
+    printf("%u\t%s\n", res, str);
     unsigned tmp = expr(str, &success);
     printf("%d\n", tmp);
     pass = pass && success && (tmp == res);
