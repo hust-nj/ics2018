@@ -18,7 +18,6 @@ int main(int argc, char *argv[]) {
        perror("getcwd() error");
        return 1;
    }
-   return 0;
 
 
   FILE *fp;
