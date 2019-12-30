@@ -63,7 +63,7 @@ static int cmd_info(char *args){
     "info r -- List of all registers and their contents\n"
     "info w -- Status of all watchpoints\n");
   } else if (!strcmp(arg, "r")){
-    for(int i = R_EAX; i <= R_EDX; ++i){
+    for(int i = R_EAX; i <= R_EDI; ++i){
       printf("%s\t\t%#x\n", reg_name(i, 4), reg_l(i));
     }
     
