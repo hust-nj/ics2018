@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
   
   /* test expr */
   FILE *fp;
-  if(!(fp = fopen("tools/gen-expr/input", "r")))
+  if(!(fp = fopen("../tools/gen-expr/input", "r")))
   {
     printf("cannot open file input\n");
     exit(1);
