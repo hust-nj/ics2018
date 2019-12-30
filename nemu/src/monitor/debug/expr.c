@@ -265,6 +265,7 @@ long long eval(int p, int q, bool *success)
         inpar--;
         if (inpar < 0)
         {
+          Log("error for inpar < 0");
           *success = false;
           return 0;
         }
