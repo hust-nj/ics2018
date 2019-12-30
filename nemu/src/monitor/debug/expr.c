@@ -90,8 +90,10 @@ static bool make_token(char *e)
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i++)
     {
+      printf("checkpoint 1");
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0)
       {
+        printf("checkpoint 2");
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
