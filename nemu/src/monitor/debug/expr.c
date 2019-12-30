@@ -270,7 +270,9 @@ long long eval(int p, int q, bool *success)
         }
       }
       if (tokens[i].type == '(')
+      {
         inpar++;
+      }
 
       if (!inpar)
       {
@@ -288,6 +290,8 @@ long long eval(int p, int q, bool *success)
     }
     if (*success == false)
       return 0;
+
+    Log("find %c\n", tokens[i].type);
 
     // now we find the op to split
     long long val1, val2;
