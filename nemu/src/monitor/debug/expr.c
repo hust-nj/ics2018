@@ -13,7 +13,8 @@ enum
   TK_DEC,
   TK_REG,
   TK_EQ,
-  TK_POS, TK_NEG
+  TK_POS,
+  TK_NEG
 
   /* TODO: Add more token types */
 
@@ -70,6 +71,7 @@ typedef struct token
 {
   int type;
   char str[32];
+  int sign;
 } Token;
 
 Token tokens[1024];
@@ -111,14 +113,16 @@ static bool make_token(char *e)
         case TK_HEX:
           strncpy(tokens[nr_token].str, substr_start, substr_len);
           tokens[nr_token].str[substr_len] = '\0';
+          tokens[nr_token].sign = 1;
           break;
 
         case TK_REG:
           strncpy(tokens[nr_token].str, substr_start + 1, substr_len - 1);
           tokens[nr_token].str[substr_len - 1] = '\0';
+          tokens[nr_token].sign = 1;
           break;
 
-        default: ;
+        default:;
           // printf("%d\n", rules[i].token_type);
           // TODO();
         }
@@ -191,7 +195,7 @@ bool check_parentheses(int p, int q)
 
 long long eval(int p, int q, bool *success)
 {
-  if (!success)
+  if (!*success)
     return 0;
   if (p > q)
   {
@@ -205,15 +209,15 @@ long long eval(int p, int q, bool *success)
     switch (tokens[p].type)
     {
     case TK_DEC:
-      return strtoll(tokens[p].str, NULL, 10);
+      return strtoll(tokens[p].str, NULL, 10) * tokens[p].sign;
       break;
 
     case TK_HEX:
-      return strtoll(tokens[p].str, NULL, 16);
+      return strtoll(tokens[p].str, NULL, 16) * tokens[p].sign;
       break;
 
     case TK_REG:
-      return reg2u(tokens[p].str, success);
+      return reg2u(tokens[p].str, success) * tokens[p].sign;
       break;
     default:
       *success = false;
@@ -232,9 +236,28 @@ long long eval(int p, int q, bool *success)
   {
     /* We should do more things here. */
 
+    while (tokens[p].type == TK_POS || tokens[p].type == TK_NEG)
+    {
+      if (tokens[p].type == TK_POS)
+      {
+        p++;
+      }
+      if (tokens[p].type == TK_NEG)
+      {
+        if (p < nr_token - 1)
+          tokens[p + 1].sign *= -1;
+        else
+        {
+          *success = false;
+          return 0;
+        }
+        p++;
+      }
+    }
+
     int i, inpar = 0; // the numbers of par surrounding between p and q
     int op = 0;
-    success = false;
+    *success = false;
     for (i = p + 1; i < q; ++i)
     {
       if (tokens[i].type == ')')
@@ -242,7 +265,7 @@ long long eval(int p, int q, bool *success)
         inpar--;
         if (inpar < 0)
         {
-          success = false;
+          *success = false;
           return 0;
         }
       }
@@ -263,16 +286,16 @@ long long eval(int p, int q, bool *success)
         }
       }
     }
-    if (success == false)
+    if (*success == false)
       return 0;
 
     // now we find the op to split
     long long val1, val2;
     val1 = eval(p, op - 1, success);
-    if (!success)
+    if (!*success)
       return 0;
     val2 = eval(op + 1, q, success);
-    if (!success)
+    if (!*success)
       return 0;
 
     switch (tokens[op].type)
@@ -286,14 +309,14 @@ long long eval(int p, int q, bool *success)
     case '/':
       if (val2 == 0)
       {
-        success = false;
+        *success = false;
         printf("Divide zero encounting!\n");
         return 0;
       }
       else
         return val1 / val2;
     default:
-      success = false;
+      *success = false;
       return 0;
     }
   }
@@ -315,19 +338,18 @@ uint32_t expr(char *e, bool *success)
     tokens[0].type = TK_NEG;
   for (int i = 1; i < nr_token; ++i)
   {
-    if (!isnum(i-1)){
+    if (!isnum(i - 1))
+    {
       if (tokens[i].type == '*')
         tokens[i].type = TK_POS;
       if (tokens[i].type == '-')
         tokens[i].type = TK_NEG;
     }
   }
-  
 
   int tmp = eval(0, nr_token - 1, success);
   if (*success)
     return tmp;
-
 
   return 0;
 }
