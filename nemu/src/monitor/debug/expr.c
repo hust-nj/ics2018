@@ -291,7 +291,7 @@ long long eval(int p, int q, bool *success)
     if (*success == false)
       return 0;
 
-    Log("find %c\n", tokens[i].type);
+    Log("operator %c\n", tokens[i].type);
 
     // now we find the op to split
     long long val1, val2;
