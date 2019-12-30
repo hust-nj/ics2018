@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
     exit(1);
   }
   unsigned res;
-  char str[1024];
+  char str[2048];
   bool success;
   bool pass = true;
   int cnt = 0;

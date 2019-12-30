@@ -74,7 +74,7 @@ typedef struct token
   int sign;
 } Token;
 
-Token tokens[65536];
+Token tokens[2048];
 int nr_token;
 
 static bool make_token(char *e)
