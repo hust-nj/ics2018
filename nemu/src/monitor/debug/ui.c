@@ -76,12 +76,18 @@ static int cmd_info(char *args){
 }
 
 static int cmd_p(char *args){
-
+  bool success;
+  uint32_t res = expr(args, &success);
+  if (success){
+    printf("%u\n", res);
+  } else {
+    printf("Invalid input!\n");
+  }
   return 0;
 }
 
 static int cmd_x(char *args){
-  char *arg1, arg2;
+  char *arg1, *arg2;
   /* extract the first argument */
   if(!(arg1 = strtok(NULL, ""))){
     printf("more arguments are required!");
