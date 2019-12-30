@@ -353,6 +353,7 @@ uint32_t expr(char *e, bool *success)
 
   Log("nr_token = %d\n", nr_token);
 
+  *success = true;
   int tmp = eval(0, nr_token - 1, success);
   if (*success)
     return tmp;
