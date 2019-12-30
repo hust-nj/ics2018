@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
   bool success;
   bool pass = true;
   int cnt = 0;
-  while (fscanf(fp, "%u%[^\n]", &res, str) == 2)
+  while (fscanf(fp, "%u %[^\n]", &res, str) == 2)
   {
     printf("%d\n", res);
     unsigned tmp = expr(str, &success);
