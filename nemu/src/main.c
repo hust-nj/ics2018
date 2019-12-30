@@ -1,6 +1,9 @@
 int init_monitor(int, char *[]);
 void ui_mainloop(int);
 
+#include <unistd.h>
+#include <stdio.h>
+#include <limits.h>
 
 #include "nemu.h"
 uint32_t expr(char *e, bool *success);
@@ -8,9 +11,20 @@ uint32_t expr(char *e, bool *success);
 int main(int argc, char *argv[]) {
   
   /* test expr */
+   char cwd[1000];
+   if (getcwd(cwd, sizeof(cwd)) != NULL) {
+       printf("Current working dir: %s\n", cwd);
+   } else {
+       perror("getcwd() error");
+       return 1;
+   }
+   return 0;
+
+
   FILE *fp;
   if(!(fp = fopen("../tools/gen-expr/input", "r")))
   {
+    
     printf("cannot open file input\n");
     exit(1);
   }
