@@ -290,6 +290,7 @@ long long eval(int p, int q, bool *success)
         }
       }
     }
+    Log("success = %d", *success);
     if (*success == false)
       return 0;
 
@@ -353,7 +354,7 @@ uint32_t expr(char *e, bool *success)
     }
   }
 
-  Log("nr_token = %d\n", nr_token);
+  Log("nr_token = %d", nr_token);
 
   *success = true;
   int tmp = eval(0, nr_token - 1, success);
