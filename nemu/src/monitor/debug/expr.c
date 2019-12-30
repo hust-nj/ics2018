@@ -258,7 +258,7 @@ long long eval(int p, int q, bool *success)
     int i, inpar = 0; // the numbers of par surrounding between p and q
     int op = 0;
     *success = false;
-    for (i = p + 1; i < q; ++i)
+    for (i = p; i < q; ++i)
     {
       if (tokens[i].type == ')')
       {
