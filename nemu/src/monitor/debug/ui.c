@@ -91,11 +91,14 @@ static int cmd_x(char *args){
   /* extract the first argument */
   if(!(arg1 = strtok(NULL, ""))){
     printf("more arguments are required!");
+    return 0;
   }
   /* extract the second argument */
   if(!(arg2 = strtok(NULL, ""))){
     printf("more arguments are required!");
+    return 0;
   }
+  
 
   return 0;
 }
