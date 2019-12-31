@@ -45,8 +45,6 @@ static struct rule
     {"0[xX][0-9a-fA-F]+", TK_HEX},    // hexadecimal
     {"[0-9][0-9]*", TK_DEC},          // decimal
     {"\\$[a-zA-Z][a-zA-Z]+", TK_REG}, // register
-    {"==", TK_EQ},                    // equal
-    {"!=", TK_NEQ},                   // not equal
     {"&&", TK_AND},                   // and
     {"\\|\\|", TK_OR},                // or
     {"!=", TK_NEQ},                   // not equal
