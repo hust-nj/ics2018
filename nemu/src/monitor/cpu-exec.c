@@ -10,6 +10,7 @@
 
 int nemu_state = NEMU_STOP;
 
+void check_wp();
 void exec_wrapper(bool);
 
 static uint64_t g_nr_guest_instr = 0;
@@ -40,7 +41,7 @@ void cpu_exec(uint64_t n) {
 
 #ifdef DEBUG
     /* TODO: check watchpoints here. */
-
+    check_wp();
 #endif
 
 #ifdef HAS_IOE

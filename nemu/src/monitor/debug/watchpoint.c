@@ -1,5 +1,6 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
+#include "monitor/monitor.h"
 
 #define NR_WP 32
 
@@ -75,4 +76,20 @@ void free_wp(int id) // move block id to free_ list
   }
 }
 
-
+void check_wp()
+{
+  for (WP *p = head; p; p = p->next)
+  {
+    bool success;
+    uint32_t res = expr(p->expr, &success);
+    if (res != p->value)
+    {
+      nemu_state = NEMU_STOP;
+      printf("Watchpoint %u: %s\n\n", p->NO, p->expr);
+      printf("Old value = %u\n", p->value);
+      printf("New value = %u\n", res);
+      p->value = res;
+      return;
+    }
+  }
+}
