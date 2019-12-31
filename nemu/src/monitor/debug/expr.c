@@ -257,7 +257,6 @@ long long eval(int p, int q, bool *success)
   else
   {
     /* We should do more things here. */
-    Log("to find and");
     int i, inpar = 0; // the numbers of par surrounding between p and q
     int op = -1;
     for (i = p; i < q; ++i)
@@ -278,6 +277,7 @@ long long eval(int p, int q, bool *success)
         inpar++;
       }
 
+      Log("to find and");
       if (!inpar)
       {
         if (ismd(i) && (op == -1 || !(ispm(op) || isen(op) || isand(op) || isor(op))))
