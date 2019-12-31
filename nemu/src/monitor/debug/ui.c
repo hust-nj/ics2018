@@ -82,7 +82,7 @@ static int cmd_info(char *args)
   }
   else if (!strcmp(arg, "w"))
   {
-    // print_wp();
+    print_wp();
   }
   else
   {
@@ -151,13 +151,23 @@ static int cmd_x(char *args)
 
 static int cmd_w(char *args)
 {
-
+  bool success;
+  uint32_t res = expr(args, &success);
+  if (success)
+  {
+    WP *pwp = new_wp();
+    strcpy(pwp->expr, args);
+    pwp->value = res;
+    printf("watchpoint %d: %s\n", pwp->NO, pwp->expr);
+  }
+  else 
+    printf("Invalid input");
   return 0;
 }
 
 static int cmd_d(char *args)
 {
-
+  free_wp(strtoul(args, NULL, 10));
   return 0;
 }
 
