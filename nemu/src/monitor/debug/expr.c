@@ -280,7 +280,7 @@ long long eval(int p, int q, bool *success)
       Log("to find and");
       if (!inpar)
       {
-        Log("no par");
+        Log("%d", op);
         if (ismd(i) && (op == -1 || !(ispm(op) || isen(op) || isand(op) || isor(op))))
         {
           // Log("find mult or div");
