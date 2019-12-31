@@ -206,6 +206,7 @@ long long eval(int p, int q, bool *success)
   {
     /* Single token.
      */
+    *success = true;
     switch (tokens[p].type)
     {
     case TK_DEC:
