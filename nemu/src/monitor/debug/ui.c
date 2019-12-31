@@ -129,7 +129,7 @@ static int cmd_x(char *args)
   // printf("%s\n",arg2);
   if (!success)
   {
-    printf("Invalid input!\n");
+    printf("Invalid expression!\n");
     return 0;
   }
   for (unsigned i = 0; i < num; i++)
