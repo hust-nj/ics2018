@@ -296,10 +296,12 @@ long long eval(int p, int q, bool *success)
         }
         else if (isand(op) && (op == -1 || !isor(op)))
         {
+          Log("find and");
           op = i;
         }
         else if (isor(op))
         {
+          Log("find or");
           op = i;
         }
       }
