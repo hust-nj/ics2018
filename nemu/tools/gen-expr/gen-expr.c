@@ -48,7 +48,7 @@ void dfs(int dep)
       break;
 
     case 3:
-      *p++ = '/';
+      *p++ = '*';
       break;
 
     case 4:
