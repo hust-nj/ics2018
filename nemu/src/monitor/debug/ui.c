@@ -110,7 +110,7 @@ static int cmd_x(char *args)
 {
   char *arg1;
   /* extract the first argument */
-  if (!(arg1 = strtok(NULL, "")))
+  if (!(arg1 = strtok(NULL, " ")))
   {
     printf("more arguments are required!\n");
     return 0;
@@ -126,7 +126,7 @@ static int cmd_x(char *args)
 
   bool success;
   vaddr_t addr = expr(arg2, &success);
-  // printf("%s\n",arg2);
+  printf("%s\n",arg2);
   if (!success)
   {
     printf("Invalid expression!\n");
