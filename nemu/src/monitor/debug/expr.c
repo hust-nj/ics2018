@@ -104,8 +104,8 @@ static bool make_token(char *e)
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
 
-        Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
+        // Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
+        //     i, rules[i].regex, position, substr_len, substr_len, substr_start);
         position += substr_len;
 
         /* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -279,7 +279,7 @@ long long eval(int p, int q, bool *success)
 
       if (!inpar)
       {
-        Log("op = %d, i = %d, tokens[i].type = %d", op, i, tokens[i].type);
+        // Log("op = %d, i = %d, tokens[i].type = %d", op, i, tokens[i].type);
         if (ismd(i) && (op == -1 || !(ispm(op) || isen(op) || isand(op) || isor(op))))
         {
           // Log("find mult or div");
@@ -294,14 +294,14 @@ long long eval(int p, int q, bool *success)
         {
           op = i;
         }
-        else if (isand(op) && (op == -1 || !isor(op)))
+        else if (isand(i) && (op == -1 || !isor(op)))
         {
-          Log("find and");
+          // Log("find and");
           op = i;
         }
-        else if (isor(op))
+        else if (isor(i))
         {
-          Log("find or");
+          // Log("find or");
           op = i;
         }
       }
