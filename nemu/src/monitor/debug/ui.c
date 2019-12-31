@@ -126,7 +126,6 @@ static int cmd_x(char *args)
 
   bool success;
   vaddr_t addr = expr(arg2, &success);
-  printf("%s\n",arg2);
   if (!success)
   {
     printf("Invalid expression!\n");
@@ -139,7 +138,7 @@ static int cmd_x(char *args)
     if (i % 4 == 0)
     {
       printf("%#x:\t", addr_temp);
-    } // print memery per 4 bytes
+    } // print memery per 4 x4 bytes
     printf("%#x\t", data);
     if ((i + 1) % 4 == 0)
     {
