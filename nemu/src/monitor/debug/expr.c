@@ -183,7 +183,18 @@ uint32_t reg2u(char *reg, bool *success)
 
 bool check_parentheses(int p, int q)
 {
-  if (tokens[p].type == '(' && tokens[q].type == ')')
+  int inpar = 0;
+  bool flg = true;
+  for (int i = p+1; i < q; ++i)
+  {
+    if (tokens[i].type == '(')
+      inpar++;
+    if (tokens[i].type == ')')
+      inpar--;
+    if (inpar < 0)
+      flg = false;
+  }
+  if (tokens[p].type == '(' && tokens[q].type == ')' && flg)
     return true;
   else
     return false;
