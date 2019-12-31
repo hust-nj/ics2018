@@ -85,11 +85,10 @@ void check_wp()
     if (res != p->value)
     {
       nemu_state = NEMU_STOP;
-      printf("Watchpoint %u: %s\n\n", p->NO, p->expr);
+      printf("Watchpoint %u: %s\n", p->NO, p->expr);
       printf("Old value = %u\n", p->value);
-      printf("New value = %u\n", res);
+      printf("New value = %u\n\n", res);
       p->value = res;
-      return;
     }
   }
 }
