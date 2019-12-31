@@ -14,7 +14,12 @@ enum
   TK_REG,
   TK_EQ,
   TK_POS,
-  TK_NEG
+  TK_NEG,
+  TK_DREF,
+  TK_NEQ,
+  TK_AND,
+  TK_OR,
+  TK_NOT
 
   /* TODO: Add more token types */
 
@@ -40,7 +45,14 @@ static struct rule
     {"0[xX][0-9a-fA-F]+", TK_HEX},    // hexadecimal
     {"[0-9][0-9]*", TK_DEC},          // decimal
     {"\\$[a-zA-Z][a-zA-Z]+", TK_REG}, // register
-    {"==", TK_EQ}                     // equal
+    {"==", TK_EQ},                    // equal
+    {"!=", TK_NEQ},                   // not equal
+    {"&&", TK_AND},                   // and
+    {"\\|\\|", TK_OR},                // or
+    {"!=", TK_NEQ},                   // not equal
+    {"==", TK_EQ},                    // equal
+    {"!", TK_NOT},                    // not
+
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]))
@@ -71,7 +83,6 @@ typedef struct token
 {
   int type;
   char str[32];
-  int sign;
 } Token;
 
 Token tokens[2048];
@@ -113,13 +124,11 @@ static bool make_token(char *e)
         case TK_HEX:
           strncpy(tokens[nr_token].str, substr_start, substr_len);
           tokens[nr_token].str[substr_len] = '\0';
-          tokens[nr_token].sign = 1;
           break;
 
         case TK_REG:
           strncpy(tokens[nr_token].str, substr_start + 1, substr_len - 1);
           tokens[nr_token].str[substr_len - 1] = '\0';
-          tokens[nr_token].sign = 1;
           break;
 
         default:;
@@ -185,7 +194,7 @@ bool check_parentheses(int p, int q)
 {
   int inpar = 0;
   bool flg = true;
-  for (int i = p+1; i < q; ++i)
+  for (int i = p + 1; i < q; ++i)
   {
     if (tokens[i].type == '(')
       inpar++;
@@ -202,6 +211,8 @@ bool check_parentheses(int p, int q)
 
 #define ismd(i) (tokens[i].type == '*' || tokens[i].type == '/')
 #define ispm(i) (tokens[i].type == '+' || tokens[i].type == '-')
+#define isao(i) (tokens[i].type == TK_AND || tokens[i].type == TK_OR)
+#define isen(i) (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ)
 #define isnum(i) (tokens[i].type == TK_HEX || tokens[i].type == TK_DEC || tokens[i].type == TK_REG || tokens[i].type == ')')
 
 long long eval(int p, int q, bool *success)
@@ -217,20 +228,20 @@ long long eval(int p, int q, bool *success)
   {
     /* Single token.
      */
-    *success = true;
     switch (tokens[p].type)
     {
     case TK_DEC:
-      return strtoll(tokens[p].str, NULL, 10) * tokens[p].sign;
+      return strtoll(tokens[p].str, NULL, 10);
       break;
 
     case TK_HEX:
-      return strtoll(tokens[p].str, NULL, 16) * tokens[p].sign;
+      return strtoll(tokens[p].str, NULL, 16);
       break;
 
     case TK_REG:
-      return reg2u(tokens[p].str, success) * tokens[p].sign;
+      return reg2u(tokens[p].str, success);
       break;
+      
     default:
       *success = false;
       return 0;
@@ -248,28 +259,8 @@ long long eval(int p, int q, bool *success)
   {
     /* We should do more things here. */
 
-    while (tokens[p].type == TK_POS || tokens[p].type == TK_NEG)
-    {
-      if (tokens[p].type == TK_POS)
-      {
-        p++;
-      }
-      if (tokens[p].type == TK_NEG)
-      {
-        if (p < nr_token - 1)
-          tokens[p + 1].sign *= -1;
-        else
-        {
-          *success = false;
-          return 0;
-        }
-        p++;
-      }
-    }
-
     int i, inpar = 0; // the numbers of par surrounding between p and q
-    int op = 0;
-    *success = false;
+    int op = -1;
     for (i = p; i < q; ++i)
     {
       if (tokens[i].type == ')')
@@ -290,23 +281,55 @@ long long eval(int p, int q, bool *success)
 
       if (!inpar)
       {
-        if (ismd(i) && (op == 0 || !ispm(op)))
+        if (ismd(i) && (op == -1 || !(ispm(op) || isen(op) || isao(op))))
         {
           // Log("find mult or div");
           op = i;
-          *success = true;
         }
-        else if (ispm(i))
+        else if (ispm(i) && (op == -1 || !(isen(op) || isao(op))))
         {
           // Log("find plus or minus");
           op = i;
-          *success = true;
+        }
+        else if (isen(i) && (op == -1 || !isao(op)))
+        {
+          op = i;
+        }
+        else if (isao(op))
+        {
+          op = i;
         }
       }
     }
     // Log("success = %d", *success);
-    if (*success == false)
-      return 0;
+    if (op == -1)
+    {
+      switch (tokens[p].type)
+      {
+      case TK_POS:
+        return eval(p+1, q, success);
+        break;
+      
+      case TK_NEG:
+        return -eval(p+1, q, success);
+        break;
+
+      case TK_DREF:
+        return vaddr_read(eval(p+1, q, success), 4);
+        break;
+
+      case TK_NOT:
+        return !eval(p+1, q, success);
+        break;
+
+      default:
+        *success = false;
+        return 0;
+        break;
+      }
+    } 
+
+    // next we find the operator
 
     // Log("operator %c\n", tokens[i].type);
 
@@ -336,6 +359,15 @@ long long eval(int p, int q, bool *success)
       }
       else
         return val1 / val2;
+    case TK_EQ:
+      return val1 == val2;
+    case TK_NEQ:
+      return val1 != val2;
+    case TK_AND:
+      return val1 && val2;
+    case TK_OR:
+      return val1 || val2;
+
     default:
       *success = false;
       return 0;
@@ -357,6 +389,8 @@ uint32_t expr(char *e, bool *success)
     tokens[0].type = TK_POS;
   if (tokens[0].type == '-')
     tokens[0].type = TK_NEG;
+  if (tokens[0].type == '*')
+    tokens[0].type = TK_DREF;
   for (int i = 1; i < nr_token; ++i)
   {
     if (!isnum(i - 1))
@@ -365,6 +399,8 @@ uint32_t expr(char *e, bool *success)
         tokens[i].type = TK_POS;
       if (tokens[i].type == '-')
         tokens[i].type = TK_NEG;
+      if (tokens[0].type == '*')
+        tokens[0].type = TK_DREF;
     }
   }
 
