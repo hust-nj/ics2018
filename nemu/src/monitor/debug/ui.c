@@ -137,7 +137,7 @@ static int cmd_x(char *args)
     uint32_t data = vaddr_read(addr_temp, 4);
     if (i % 4 == 0)
     {
-      printf("%#x:\t", addr_temp);
+      printf("%#8x:\t", addr_temp);
     } // print memery per 4 x4 bytes
     printf("%#x\t", data);
     if ((i + 1) % 4 == 0)
