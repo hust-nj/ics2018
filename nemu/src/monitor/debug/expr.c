@@ -306,6 +306,7 @@ long long eval(int p, int q, bool *success)
         }
       }
     }
+    Log("op = %d", op);
     // Log("success = %d", *success);
     if (op == -1)
     {
