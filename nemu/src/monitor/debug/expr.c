@@ -279,7 +279,7 @@ long long eval(int p, int q, bool *success)
 
       if (!inpar)
       {
-        Log("op = %d, i = %d", op, i);
+        Log("op = %d, i = %d, tokens[i].type = %d", op, i, tokens[i].type);
         if (ismd(i) && (op == -1 || !(ispm(op) || isen(op) || isand(op) || isor(op))))
         {
           // Log("find mult or div");
