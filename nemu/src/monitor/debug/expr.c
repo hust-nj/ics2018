@@ -211,7 +211,8 @@ bool check_parentheses(int p, int q)
 
 #define ismd(i) (tokens[i].type == '*' || tokens[i].type == '/')
 #define ispm(i) (tokens[i].type == '+' || tokens[i].type == '-')
-#define isao(i) (tokens[i].type == TK_AND || tokens[i].type == TK_OR)
+#define isand(i) (tokens[i].type == TK_AND)
+#define isor(i) (tokens[i].type == TK_OR)
 #define isen(i) (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ)
 #define isnum(i) (tokens[i].type == TK_HEX || tokens[i].type == TK_DEC || tokens[i].type == TK_REG || tokens[i].type == ')')
 
@@ -281,21 +282,25 @@ long long eval(int p, int q, bool *success)
 
       if (!inpar)
       {
-        if (ismd(i) && (op == -1 || !(ispm(op) || isen(op) || isao(op))))
+        if (ismd(i) && (op == -1 || !(ispm(op) || isen(op) || isand(op) || isor(op))))
         {
           // Log("find mult or div");
           op = i;
         }
-        else if (ispm(i) && (op == -1 || !(isen(op) || isao(op))))
+        else if (ispm(i) && (op == -1 || !(isen(op) || isand(op) || isor(op))))
         {
           // Log("find plus or minus");
           op = i;
         }
-        else if (isen(i) && (op == -1 || !isao(op)))
+        else if (isen(i) && (op == -1 || !(isand(op) || isor(op))))
         {
           op = i;
         }
-        else if (isao(op))
+        else if (isand(op) && (op == -1 || !isor(op)))
+        {
+          op = i;
+        }
+        else if (isor(op))
         {
           op = i;
         }
