@@ -23,10 +23,10 @@ void init_wp_pool() {
 
 void print_wp()
 {
-  printf("Num\tWhat");
+  printf("Num\tWhat\n");
   for (WP *p = head; p; p = p->next)
   {
-    printf("%d\t%s", p->NO, p->expr);
+    printf("%d\t%s\n", p->NO, p->expr);
   }
 }
 
