@@ -112,7 +112,7 @@ static int cmd_x(char *args)
   /* extract the first argument */
   if (!(arg1 = strtok(NULL, "")))
   {
-    printf("more arguments are required!");
+    printf("more arguments are required!\n");
     return 0;
   }
   char *arg2 = arg1 + strlen(arg1) + 1;
@@ -120,13 +120,13 @@ static int cmd_x(char *args)
   unsigned num = strtoul(arg1, &pend, 10);
   if (pend == arg1)
   {
-    printf("please input a number N as 1st parameter.");
+    printf("please input a number N as 1st parameter.\n");
     return 0;
   }
 
   bool success;
   vaddr_t addr = expr(arg2, &success);
-  printf("%s\n",arg2);
+  // printf("%s\n",arg2);
   if (!success)
   {
     printf("Invalid input!\n");
