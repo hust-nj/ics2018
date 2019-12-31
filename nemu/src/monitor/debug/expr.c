@@ -216,7 +216,6 @@ bool check_parentheses(int p, int q)
 
 long long eval(int p, int q, bool *success)
 {
-  Log("in eval");
   if (!*success)
     return 0;
   if (p > q)
@@ -258,7 +257,7 @@ long long eval(int p, int q, bool *success)
   else
   {
     /* We should do more things here. */
-
+    Log("to find and");
     int i, inpar = 0; // the numbers of par surrounding between p and q
     int op = -1;
     for (i = p; i < q; ++i)
