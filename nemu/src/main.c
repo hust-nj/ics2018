@@ -40,6 +40,7 @@ int main(int argc, char *argv[]) {
     unsigned tmp = expr(str, &success);
     // printf("%d\n", tmp);
     pass = pass && success && (tmp == res);
+    if (!success) printf("fail at %d\n", cnt);
     cnt++;
   }
   fclose(fp);
