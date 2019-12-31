@@ -216,6 +216,7 @@ bool check_parentheses(int p, int q)
 
 long long eval(int p, int q, bool *success)
 {
+  Log("in eval");
   if (!*success)
     return 0;
   if (p > q)
