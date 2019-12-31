@@ -139,7 +139,7 @@ static int cmd_x(char *args)
     {
       printf("%#10x:\t", addr_temp);
     } // print memery per 4 x4 bytes
-    printf("%#x\t", data);
+    printf("%#10x\t", data);
     if ((i + 1) % 4 == 0)
     {
       printf("\n");
