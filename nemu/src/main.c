@@ -6,7 +6,8 @@ void ui_mainloop(int);
 #include <limits.h>
 
 #include "nemu.h"
-uint32_t expr(char *e, bool *success);
+extern uint32_t expr(char *e, bool *success);
+extern void init_regex();
 
 int main(int argc, char *argv[]) {
   
@@ -19,7 +20,7 @@ int main(int argc, char *argv[]) {
        return 1;
    }
 
-
+  init_regex();
   FILE *fp;
   if(!(fp = fopen("tools/gen-expr/input", "r")))
   {
@@ -27,26 +28,24 @@ int main(int argc, char *argv[]) {
     printf("cannot open file input\n");
     exit(1);
   }
-
-  char str[] = "1+1";
+  
+  unsigned res;
+  char str[2048];
   bool success;
-  printf("%s = %d\n", str, expr(str, &success));
-  // unsigned res;
-  // char str[2048];
-  // bool pass = true;
-  // int cnt = 0;
-  // while (fscanf(fp, "%u %[^\n]", &res, str) == 2)
-  // {
-  //   printf("%u\t%s\n", res, str);
-  //   unsigned tmp = expr(str, &success);
-  //   printf("%d\n", tmp);
-  //   pass = pass && success && (tmp == res);
-  //   cnt++;
-  // }
-  // fclose(fp);
+  bool pass = true;
+  int cnt = 0;
+  while (fscanf(fp, "%u %[^\n]", &res, str) == 2)
+  {
+    printf("%u\t%s\n", res, str);
+    unsigned tmp = expr(str, &success);
+    printf("%d\n", tmp);
+    pass = pass && success && (tmp == res);
+    cnt++;
+  }
+  fclose(fp);
 
-  // if (pass)
-  //   printf("success fully pass all %d test cases\n", cnt);
+  if (pass)
+    printf("success fully pass all %d test cases\n", cnt);
   
 
   /* Initialize the monitor. */
