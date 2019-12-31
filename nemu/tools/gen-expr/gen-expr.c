@@ -28,9 +28,11 @@ void dfs(int dep)
   {
     int par = gen_rand_num(0,4);
     if (!par) *p++ = '(';
+    int excl = gen_rand_num(0,3);
+    if (!excl) *p++ = '!';
     dfs(dep-1);
     if (!par) *p++ = ')'; // left
-    int op = gen_rand_num(0,3);
+    int op = gen_rand_num(0,7);
     switch (op)
     {
     case 0:
@@ -49,12 +51,33 @@ void dfs(int dep)
       *p++ = '/';
       break;
 
+    case 4:
+      *p++ = '&';
+      *p++ = '&';
+      break;
+    
+    case 5:
+      *p++ = '|';
+      *p++ = '|';
+      break;
+
+    case 6:
+      *p++ = '=';
+      *p++ = '=';
+      break;
+
+    case 7:
+      *p++ = '!';
+      *p++ = '=';
+
     default:
       break;
     }
 
     par = gen_rand_num(0,4);
+    excl = gen_rand_num(0,3);
     if (!par) *p++ = '(';
+    if (!excl) *p++ = '!';
     dfs(dep-1);
     if (!par) *p++ = ')'; // right
     return;
