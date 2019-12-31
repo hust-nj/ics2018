@@ -126,6 +126,7 @@ static int cmd_x(char *args)
 
   bool success;
   vaddr_t addr = expr(arg2, &success);
+  printf("%s\n",arg2);
   if (!success)
   {
     printf("Invalid input!\n");
