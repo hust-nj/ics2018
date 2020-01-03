@@ -43,7 +43,7 @@ static inline make_DopHelper(SI) {
    */
   op->type = OP_TYPE_IMM;
   op->simm = instr_fetch(eip, op->width); // get op->width length signed imm
-  op->simm = ((op->simm << (8*(4-op->width)) >> (8*(4-op->width)))); // signed expend the imm
+  op->simm = (((int)op->simm << (8*(4-op->width)) >> (8*(4-op->width)))); // signed expend the imm
 
   rtl_li(&op->val, op->simm);
 
