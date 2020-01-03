@@ -41,7 +41,9 @@ static inline make_DopHelper(SI) {
    *
    op->simm = ???
    */
-  TODO();
+  op->type = OP_TYPE_IMM;
+  op->simm = instr_fetch(eip, op->width); // get op->width length signed imm
+  op->simm = ((op->simm << (8*(4-op->width)) >> (8*(4-op->width)))); // signed expend the imm
 
   rtl_li(&op->val, op->simm);
 
@@ -282,7 +284,7 @@ make_DHelper(a2O) {
 make_DHelper(J) {
   decode_op_SI(eip, id_dest, false);
   // the target address can be computed in the decode stage
-  decoding.jmp_eip = id_dest->simm + *eip;
+  decoding.jmp_eip = id_dest->simm + *eip; // relative jump
 }
 
 make_DHelper(push_SI) {

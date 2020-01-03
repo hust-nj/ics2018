@@ -6,8 +6,8 @@ make_EHelper(mov) {
 }
 
 make_EHelper(push) {
-  TODO();
-
+  id_dest->val = id_dest->val << (8*(4-id_dest->width)) >> (8*(4-id_dest->width)); // signed expend to id_dest->val
+  rtl_push(&id_dest->val);
   print_asm_template1(push);
 }
 
