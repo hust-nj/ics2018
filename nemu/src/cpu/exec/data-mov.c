@@ -12,8 +12,8 @@ make_EHelper(push) {
 }
 
 make_EHelper(pop) {
-  rtl_pop(&at);
-  rtl_sext(&id_dest->val, &at, id_dest->width);
+  rtl_pop(&t0);
+  rtl_sext(&id_dest->val, &t0, id_dest->width);
   print_asm_template1(pop);
 }
 
