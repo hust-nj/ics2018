@@ -32,6 +32,58 @@ typedef struct {
     };
   };
 
+/*
+  31                  23                  15               7            0
+ +-------------------+---------------+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ |                                   |V|R| |N| IO|O|D|I|T|S|Z| |A| |P| |C|
+ | 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 | | |0| |   | | | | | | |0| |0| |1| |
+ |                                   |M|F| |T| PL|F|F|F|F|F|F| |F| |F| |F|
+ +-------------------+---------------+++++-+++-+-+++++++++++++-+++-+++-+++
+                                      | |   |  |  | | | | | |   |   |   |
+       VIRTUAL 8086 MODE---X----------+ |   |  |  | | | | | |   |   |   |
+             RESUME FLAG---X------------+   |  |  | | | | | |   |   |   |
+        NESTED TASK FLAG---X----------------+  |  | | | | | |   |   |   |
+     I/O PRIVILEGE LEVEL---X-------------------+  | | | | | |   |   |   |
+                OVERFLOW---S----------------------+ | | | | |   |   |   |
+          DIRECTION FLAG---C------------------------+ | | | |   |   |   |
+        INTERRUPT ENABLE---X--------------------------+ | | |   |   |   |
+               TRAP FLAG---S----------------------------+ | |   |   |   |
+               SIGN FLAG---S------------------------------+ |   |   |   |
+               ZERO FLAG---S--------------------------------+   |   |   |
+         AUXILIARY CARRY---S------------------------------------+   |   |
+             PARITY FLAG---S----------------------------------------+   |
+              CARRY FLAG---S--------------------------------------------+
+
+          S = STATUS FLAG, C = CONTROL FLAG, X = SYSTEM FLAG
+
+          NOTE: 0 OR 1 INDICATES INTEL RESERVED. DO NOT DEFINE
+
+*/
+
+  	union {
+		struct {
+			uint8_t CF  : 1;
+			uint8_t B1  : 1; // always 1, do not define
+			uint8_t PF  : 1;
+      uint8_t B2  : 1; // always 0
+			uint8_t AF  : 1;
+      uint8_t B3  : 1; // always 0
+      uint8_t ZF  : 1;
+			uint8_t SF  : 1;
+			uint8_t TF  : 1;
+			uint8_t IF  : 1;
+			uint8_t DF  : 1;
+			uint8_t OF  : 1;
+      uint8_t IOPL: 2;
+      uint8_t NT  : 1;
+      uint8_t B4  : 1; // always 0
+      uint8_t RF  : 1;
+      uint8_t VM  : 1;
+			uint16_t B5 :  14; // always 0
+		} eflags;
+		uint32_t flags;
+	};
+
   vaddr_t eip;
 
 } CPU_state;
