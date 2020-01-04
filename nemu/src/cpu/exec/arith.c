@@ -1,41 +1,46 @@
 #include "cpu/exec.h"
 
 make_EHelper(add) {
-  rtl_add(&t0, &id_dest->val, &id_src->val);
-  t1 = (t0 & (0xffffffffu >> ((4-id_dest->width) << 3)));
-  t3 = t1 < id_src->val;
-
+	rtl_sext(&t1, &id_dest->val, id_dest->width);
+	rtl_sext(&t2, &id_src->val, id_src->width);
+	rtl_add(&t0, &t1, &t2);
+	t3 = (t0 < t1);
 	rtl_set_CF(&t3);
-	rtl_update_ZFSF(&t1, id_dest->width);
-	cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
-	operand_write(id_dest, &t1);
+	rtl_update_ZFSF(&t0, 4);
+	t3 = cpu.eflags.CF ^ cpu.eflags.SF; //正正得负 负负得正
+	rtl_set_OF(&t3);
+	operand_write(id_dest, &t0);
 
-  print_asm_template2(add);
+	print_asm_template2(add);
 }
 
 make_EHelper(sub) {
-  rtl_sub(&t0, &id_dest->val, &id_src->val);
-  t1 = (t0 & (0xffffffffu >> ((4-id_dest->width) << 3)));
-  t3 = t1 > id_dest->val;
+	rtl_sext(&t1, &id_dest->val, id_dest->width);
+	rtl_sext(&t2, &id_src->val, id_src->width);
 
+	rtl_sub(&t0, &t1, &t2);
+	t3 = (t0 > t1);
 	rtl_set_CF(&t3);
-	rtl_update_ZFSF(&t1, id_dest->width);
-	cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
-	operand_write(id_dest, &t1);
+	rtl_update_ZFSF(&t0, 4);
+	t3 = cpu.eflags.CF ^ cpu.eflags.SF; //正正得负 负负得正
+	rtl_set_OF(&t3);
+	operand_write(id_dest, &t0);
 
-  print_asm_template2(sub);
+	print_asm_template2(sub);
 }
 
 make_EHelper(cmp) {
-  rtl_sub(&t0, &id_dest->val, &id_src->val);
-  t1 = (t0 & (0xffffffffu >> ((4-id_dest->width) << 3)));
-  t3 = t1 > id_dest->val;
+	rtl_sext(&t1, &id_dest->val, id_dest->width);
+	rtl_sext(&t2, &id_src->val, id_src->width);
 
+	rtl_sub(&t0, &t1, &t2);
+	t3 = (t0 > t1);
 	rtl_set_CF(&t3);
-	rtl_update_ZFSF(&t1, id_dest->width);
-	cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
+	rtl_update_ZFSF(&t0, 4);
+	t3 = cpu.eflags.CF ^ cpu.eflags.SF; //正正得负 负负得正
+	rtl_set_OF(&t3);
 
-  print_asm_template2(cmp);
+	print_asm_template2(cmp);
 }
 
 // fuck OF! every thing is wrong below, don't believe the following code about set flag, just copy for fun
