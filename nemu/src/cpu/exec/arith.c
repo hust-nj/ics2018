@@ -7,7 +7,7 @@ make_EHelper(add) {
 
 	rtl_set_CF(&t3);
 	rtl_update_ZFSF(&t1, id_dest->width);
-	cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
+	// cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
 	operand_write(id_dest, &t1);
 
   print_asm_template2(add);
@@ -20,7 +20,7 @@ make_EHelper(sub) {
 
 	rtl_set_CF(&t3);
 	rtl_update_ZFSF(&t1, id_dest->width);
-	cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
+	// cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
 	operand_write(id_dest, &t1);
 
   print_asm_template2(sub);
@@ -33,7 +33,7 @@ make_EHelper(cmp) {
 
 	rtl_set_CF(&t3);
 	rtl_update_ZFSF(&t1, id_dest->width);
-	cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
+	// cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
 
   print_asm_template2(cmp);
 }
