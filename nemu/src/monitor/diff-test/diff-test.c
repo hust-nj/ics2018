@@ -79,7 +79,7 @@ void difftest_step(uint32_t eip) {
       ref_r.eax, ref_r.ecx, ref_r.edx, ref_r.ebx, ref_r.esp, ref_r.ebp, ref_r.esi, ref_r.edi, ref_r.eip);
     Log("NEMU: eax:%-11xecx:%-11xedx:%-11xebx:%-11xesp:%-11xebp:%-11xesi:%-11xedi:%-11xeip:%-x\n",
       cpu.eax, cpu.ecx, cpu.edx, cpu.ebx, cpu.esp, cpu.ebp, cpu.esi, cpu.edi, cpu.eip);
-    printf("Registers differ at eip = 0x%08x\n", eip);
+    Log("Registers differ at eip = 0x%08x\n", eip);
     nemu_state = NEMU_ABORT;
   }
 
