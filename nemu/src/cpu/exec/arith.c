@@ -6,8 +6,8 @@ make_EHelper(add) {
 	rtl_add(&t0, &t1, &t2);
 	t3 = (t0 < t1);
 	rtl_set_CF(&t3);
-	t3 = ((((int32_t)(t1) >= 0) ^ (((int32_t)(t2) >= 0 ))) && (((int32_t)(t0) < 0) ^ (((int32_t)(t2) >= 0 )) )); //正正得负 负负得正
-	rtl_set_OF(&t3);
+	// t3 = ((((int32_t)(t1) >= 0) ^ (((int32_t)(t2) >= 0 ))) && (((int32_t)(t0) < 0) ^ (((int32_t)(t2) >= 0 )) )); //正正得负 负负得正
+	// rtl_set_OF(&t3);
 	rtl_update_ZFSF(&t0, 4);
 	operand_write(id_dest, &t0);
 
