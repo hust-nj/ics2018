@@ -40,19 +40,6 @@ make_EHelper(cmp) {
 
 // fuck OF! every thing is wrong below, don't believe the following code about set flag, just copy for fun
 
-make_EHelper(inc) {
-	rtl_addi(&t2, &id_dest->val, 1);
-	operand_write(id_dest, &t2);
-	rtl_update_ZFSF(&t2, id_dest->width);
-
-	rtl_not(&t0, &id_dest->val);
-	rtl_xor(&t1, &id_dest->val, &t2);
-	rtl_and(&t0, &t0, &t1);
-	rtl_msb(&t0, &t0, id_dest->width);
-	rtl_set_OF(&t0);
-
-  print_asm_template1(inc);
-}
 
 make_EHelper(inc) {
 	rtl_addi(&t2, &id_dest->val, 1);
