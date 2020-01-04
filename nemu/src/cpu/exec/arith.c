@@ -7,7 +7,7 @@ make_EHelper(add) {
 	t3 = (t0 < t1);
 	rtl_set_CF(&t3);
 	t3 = ((((int32_t)(t1) >= 0) ^ (((int32_t)(t2) >= 0 ))) && (((int32_t)(t0) < 0) ^ (((int32_t)(t2) >= 0 )) )); //正正得负 负负得正
-	// rtl_set_OF(&t3);
+	rtl_set_OF(&t3);
 	rtl_update_ZFSF(&t0, 4);
 	operand_write(id_dest, &t0);
 
@@ -22,7 +22,7 @@ make_EHelper(sub) {
 	t3 = (t0 > t1);
 	rtl_set_CF(&t3);
 	t3 = ((((int32_t)(t1) < 0) == (((int32_t)(t2) >> 31) == 0)) && (((int32_t)(t0) < 0) != ((int32_t)(t1) < 0))); // 负正得正 正负得负
-	// rtl_set_OF(&t3);
+	rtl_set_OF(&t3);
 	rtl_update_ZFSF(&t0, 4);
 	operand_write(id_dest, &t0);
 
@@ -37,7 +37,7 @@ make_EHelper(cmp) {
 	t3 = (t0 > t1);
 	rtl_set_CF(&t3);
 	t3 = ((((int32_t)(t1) < 0) == (((int32_t)(t2) >> 31) == 0)) && (((int32_t)(t0) < 0) != ((int32_t)(t1) < 0)));
-	// rtl_set_OF(&t3);
+	rtl_set_OF(&t3);
 	rtl_update_ZFSF(&t0, 4);
 
 	print_asm_template2(cmp);
