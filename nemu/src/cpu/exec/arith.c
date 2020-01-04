@@ -38,6 +38,22 @@ make_EHelper(cmp) {
   print_asm_template2(cmp);
 }
 
+// fuck OF! every thing is wrong below, don't believe the following code about set flag, just copy for fun
+
+make_EHelper(inc) {
+	rtl_addi(&t2, &id_dest->val, 1);
+	operand_write(id_dest, &t2);
+	rtl_update_ZFSF(&t2, id_dest->width);
+
+	rtl_not(&t0, &id_dest->val);
+	rtl_xor(&t1, &id_dest->val, &t2);
+	rtl_and(&t0, &t0, &t1);
+	rtl_msb(&t0, &t0, id_dest->width);
+	rtl_set_OF(&t0);
+
+  print_asm_template1(inc);
+}
+
 make_EHelper(inc) {
 	rtl_addi(&t2, &id_dest->val, 1);
 	operand_write(id_dest, &t2);
@@ -48,21 +64,41 @@ make_EHelper(inc) {
 	rtl_and(&t0, &t0, &t1);
 	rtl_msb(&t0, &t0, id_dest->width);
 	rtl_set_OF(&t0);
-
-  print_asm_template1(inc);
+	print_asm_template1(inc);
 }
 
 make_EHelper(dec) {
-  TODO();
+	rtl_subi(&t2, &id_dest->val, 1);
+	operand_write(id_dest, &t2);
 
-  print_asm_template1(dec);
+	rtl_update_ZFSF(&t2, id_dest->width);
+
+	rtl_xor(&t0, &id_dest->val, &id_src->val);
+	rtl_xor(&t1, &id_dest->val, &t2);
+	rtl_and(&t0, &t0, &t1);
+	rtl_msb(&t0, &t0, id_dest->width);
+	rtl_set_OF(&t0);
+	print_asm_template1(dec);
 }
 
 make_EHelper(neg) {
-  TODO();
+	rtl_mv(&t0, &id_dest->val);
+	rtl_not(&t0, &t0);
+	rtl_addi(&t0, &t0, 1);
+	operand_write(id_dest, &t0);
 
-  print_asm_template1(neg);
+	t1 = (id_dest->val != 0);
+	rtl_set_CF(&t1);
+
+	rtl_update_ZFSF(&t0, id_dest->width);
+	rtl_xor(&t1, &t0, &id_dest->val);
+	rtl_not(&t1, &t1);
+	rtl_msb(&t1, &t1, id_dest->width);
+	rtl_set_OF(&t1);
+
+	print_asm_template1(neg);
 }
+
 
 make_EHelper(adc) {
   rtl_add(&t2, &id_dest->val, &id_src->val);
