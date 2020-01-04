@@ -60,6 +60,8 @@ typedef struct {
 
 */
 
+    vaddr_t eip;
+  
   	union {
 		struct {
 			uint8_t CF  : 1;
@@ -84,7 +86,6 @@ typedef struct {
 		uint32_t flags;
 	};
 
-  vaddr_t eip;
 
 } CPU_state;
 
