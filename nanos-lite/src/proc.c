@@ -1,4 +1,5 @@
 #include "proc.h"
+extern void naive_uload(PCB *pcb, const char *filename);
 
 #define MAX_NR_PROC 4
 
@@ -20,6 +21,8 @@ void hello_fun(void *arg) {
 }
 
 void init_proc() {
+	naive_uload(NULL, "/bin/init");
+  return;
 }
 
 _Context* schedule(_Context *prev) {
