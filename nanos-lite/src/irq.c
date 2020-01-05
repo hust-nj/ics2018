@@ -3,7 +3,7 @@
 
 static _Context* do_event(_Event e, _Context* c) {
   switch (e.event) {
-    case _EVENT_YIELD: printf("System Trap.\n"); break;
+    case _EVENT_YIELD: printf("System Trap in do_event.\n"); break;
     default: panic("Unhandled event ID = %d", e.event);
   }
 
