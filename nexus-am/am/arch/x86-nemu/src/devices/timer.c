@@ -2,16 +2,15 @@
 #include <x86.h>
 #include <amdev.h>
 #define RTC_PORT 0x48
-
-static uint32_t time_boot;
+unsigned long long current_time;
 
 size_t timer_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_TIMER_UPTIME: {
       _UptimeReg *uptime = (_UptimeReg *)buf;
-      uint32_t curtime = inl(RTC_PORT);
-      uptime->hi = 0;
-      uptime->lo = curtime - time_boot;
+      current_time = inl(RTC_PORT);
+      uptime->hi = current_time >> 32;
+      uptime->lo = current_time & 0xffffffff;
       return sizeof(_UptimeReg);
     }
     case _DEVREG_TIMER_DATE: {
@@ -29,5 +28,4 @@ size_t timer_read(uintptr_t reg, void *buf, size_t size) {
 }
 
 void timer_init() {
-  time_boot = inl(RTC_PORT);
 }
