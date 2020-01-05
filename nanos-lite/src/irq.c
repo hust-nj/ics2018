@@ -1,4 +1,5 @@
 #include "common.h"
+#include "klib.h"
 
 static _Context* do_event(_Event e, _Context* c) {
   switch (e.event) {
