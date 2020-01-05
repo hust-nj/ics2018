@@ -9,7 +9,7 @@ size_t timer_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_TIMER_UPTIME: {
       _UptimeReg *uptime = (_UptimeReg *)buf;
-      unsigned long long curtime = inl(RTC_PORT);
+      uint32_t curtime = inl(RTC_PORT);
       uptime->hi = 0;
       uptime->lo = curtime - time_boot;
       return sizeof(_UptimeReg);
