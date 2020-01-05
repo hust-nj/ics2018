@@ -7,7 +7,9 @@ make_EHelper(add) {
 
 	rtl_set_CF(&t3);
 	rtl_update_ZFSF(&t1, id_dest->width);
-	cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
+  t3 = (t1 & ~id_dest->val & ~id_src->val) | (~t1 & id_dest->val & id_src->val);
+  rtl_msb(&t3, &t3, id_dest->width);
+  rtl_set_OF(&t3);
 	operand_write(id_dest, &t1);
 
   print_asm_template2(add);
@@ -20,7 +22,9 @@ make_EHelper(sub) {
 
 	rtl_set_CF(&t3);
 	rtl_update_ZFSF(&t1, id_dest->width);
-	cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
+  t3 = (~t1 & id_dest->val & ~id_src->val) | (t1 & ~id_dest->val & id_src->val);
+  rtl_msb(&t3, &t3, id_dest->width);
+  rtl_set_OF(&t3);
 	operand_write(id_dest, &t1);
 
   print_asm_template2(sub);
@@ -29,16 +33,15 @@ make_EHelper(sub) {
 make_EHelper(cmp) {
   rtl_sub(&t0, &id_dest->val, &id_src->val);
   t1 = (t0 & (0xffffffffu >> ((4-id_dest->width) << 3)));
-  t3 = t1 > id_dest->val;
-
-	rtl_set_CF(&t3);
 	rtl_update_ZFSF(&t1, id_dest->width);
-	cpu.eflags.OF = cpu.eflags.CF ^ cpu.eflags.SF; // set OF
+  t3 = (~t1 & id_dest->val & ~id_src->val) | (t1 & ~id_dest->val & id_src->val);
+  rtl_msb(&t3, &t3, id_dest->width);
+  rtl_set_OF(&t3);
 
   print_asm_template2(cmp);
 }
 
-// fuck OF! every thing is wrong below, don't believe the following code about set flag, just copy for fun
+// fuck OF! every thing is wrong below, don't believe the following code about set OF flag, just copy for fun
 
 
 make_EHelper(inc) {
