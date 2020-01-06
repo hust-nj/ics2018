@@ -16,10 +16,10 @@ _Context* do_syscall(_Context *c) {
   switch (a[0]) {
     case SYS_yield:
       ret = 0;
-      printf("system yeild\n");
+      // printf("system yeild\n");
       break;
     case SYS_exit:
-      printf("system exit\n");
+      // printf("system exit\n");
       _halt(a[1]);
       break;
     case SYS_write:
@@ -27,27 +27,27 @@ _Context* do_syscall(_Context *c) {
       // printf("system write:%d\n", ret); // do not use printf to debug!
       break;
     case SYS_brk:
-      printf("system break\n");
+      // printf("system break\n");
       ret = 0; // always return zero / always succeed
       break;
     case SYS_open:
-      printf("system open\n");
+      // printf("system open\n");
       ret = fs_open((void *)a[1], a[2], a[3]);
       break;
     case SYS_close:
-      printf("system close\n");
+      // printf("system close\n");
       ret = fs_close(a[1]);
       break;
     case SYS_read:
-      printf("system read\n");
+      // printf("system read\n");
       ret = fs_read(a[1], (void *)a[2], a[3]);
       break;
     case SYS_lseek:
-      printf("system lseek\n");
+      // printf("system lseek\n");
   		ret = fs_lseek(a[1], a[2], a[3]);
       break;
     case SYS_execve:
-      printf("system execve\n");
+      // printf("system execve\n");
       naive_uload(NULL, (void *)a[1]);
       break;
 
