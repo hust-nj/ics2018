@@ -15,6 +15,7 @@ make_EHelper(popa);
 make_EHelper(leave);
 
 make_EHelper(lea);
+make_EHelper(stos);
 
 // control.c
 make_EHelper(call);
