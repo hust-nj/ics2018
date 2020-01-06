@@ -1,5 +1,9 @@
 #include "common.h"
 #include "syscall.h"
+#include "proc.h"
+#include "fs.h"
+
+extern void naive_uload(PCB *pcb, const char *filename);
 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
@@ -11,6 +15,11 @@ _Context* do_syscall(_Context *c) {
       ret = 0;
       printf("system yeild\n");
       break;
+    case SYS_exit:
+      printf("system exit\n");
+      naive_uload(NULL, "/bin/init");
+      break;
+
 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
