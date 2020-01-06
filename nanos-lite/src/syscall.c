@@ -2,6 +2,7 @@
 #include "syscall.h"
 #include "proc.h"
 #include "fs.h"
+#include "arch.h"
 
 extern void naive_uload(PCB *pcb, const char *filename);
 
