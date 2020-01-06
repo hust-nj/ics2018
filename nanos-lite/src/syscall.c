@@ -4,6 +4,17 @@
 #include "fs.h"
 
 extern void naive_uload(PCB *pcb, const char *filename);
+int do_syscall_brk(uint32_t increment){
+  static intptr_t _end_log = 0;
+  if (_end_log == 0){
+    _end_log = (intptr_t)_heap.start;
+  }
+  intptr_t ret = _end_log;
+  _end_log += increment;
+  return ret;
+}
+
+
 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
@@ -28,7 +39,7 @@ _Context* do_syscall(_Context *c) {
       break;
     case SYS_brk:
       printf("system break\n");
-      ret = 0; // always return zero / always succeed
+      ret = do_syscall_brk(a[1]); // always return zero / always succeed
       break;
     case SYS_open:
       printf("system open\n");
