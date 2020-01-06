@@ -22,7 +22,10 @@ _Context* do_syscall(_Context *c) {
       printf("system exit\n");
       _halt(a[1]);
       break;
-
+    case SYS_write:
+      ret = fs_write(a[1], (void*)a[2], a[3]);
+      printf("system write:%d\n", ret);
+      break;
 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
