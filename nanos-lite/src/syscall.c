@@ -24,8 +24,13 @@ _Context* do_syscall(_Context *c) {
       break;
     case SYS_write:
       ret = fs_write(a[1], (void*)a[2], a[3]);
-      // printf("system write:%d\n", ret);
+      // printf("system write:%d\n", ret); // do not use printf to debug!
       break;
+    case SYS_brk:
+      ret = 0; // always return zero / always succeed
+      break;
+
+
 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
